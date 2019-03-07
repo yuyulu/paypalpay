@@ -1,0 +1,6 @@
+登录网址：  https://developer.paypal.com/
+
+账号密码 ：   651267128@qq.com      chu19900602
+
+付款账号    chu123@163.com  chu19900602   (可在 Sandbox->Accounts自行设置)
+
