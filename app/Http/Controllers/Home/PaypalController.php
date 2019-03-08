@@ -104,27 +104,25 @@ class PaypalController extends Controller
     /**
      * 支付成功或支付失败返回跳转地址
      */
-    public function redirect()
+    public function redirect(Request $request)
     {
         $this -> startPayPal();
 
-        $input = Input::only('success', 'paymentId', 'PayerID');
-
-        if(!$input['success'] || !$input['paymentId'] || !$input['PayerID']){
+        $success = $request->success;
+        $paymentid = $request->paymentId;
+        $payerid = $request->PayerID;
+        if(!isset($success) || !isset($paymentid) || !isset($payerid)){
             dd('Parameter Error');
         }
 
-        if((bool)$input['success'] === 'false'){
+        if((bool)$success === 'false'){
             dd('Transaction cancelled!');
         }
 
-        $paymentID = $input['paymentId'];
-        $payerId = $input['PayerID'];
-
-        $payment = Payment::get($paymentID, $this->paypal);
+        $payment = Payment::get($paymentid, $this->paypal);
 
         $execute = new PaymentExecution();
-        $execute->setPayerId($payerId);
+        $execute->setPayerId($payerid);
 
         try{
             $result = $payment->execute($execute, $this->paypal);

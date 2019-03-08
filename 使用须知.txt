@@ -1,3 +1,15 @@
+laravel paypal支付 demo
+
+composer install
+
+修改
+    resource/views/paypal.blade.php
+    app/Http/Controllers/Home/PaypalController 里面的
+	
+	
+ http://paytest.test  到自己的url
+
+
 登录网址：  https://developer.paypal.com/
 
 账号密码 ：   651267128@qq.com      chu19900602
