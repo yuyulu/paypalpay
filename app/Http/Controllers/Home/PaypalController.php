@@ -15,6 +15,7 @@ use PayPal\Api\RedirectUrls;
 use PayPal\Api\Payment;
 use PayPal\Exception\PayPalConnectionException;
 use Illuminate\Http\Request;
+use PayPal\Api\PaymentExecution;
 
 class PaypalController extends Controller
 {
@@ -126,9 +127,10 @@ class PaypalController extends Controller
 
         try{
             $result = $payment->execute($execute, $this->paypal);
+            echo 'SUCCESS! Thank You!';
+            dd($result);
         }catch(Exception $e){
             dd($e);
         }
-        echo 'SUCCESS! Thank You!';
     }
 }
