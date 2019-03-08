@@ -16,6 +16,7 @@ use PayPal\Api\Payment;
 use PayPal\Exception\PayPalConnectionException;
 use Illuminate\Http\Request;
 use PayPal\Api\PaymentExecution;
+use PayPal\Api\ShippingAddress;
 
 class PaypalController extends Controller
 {
@@ -64,6 +65,18 @@ class PaypalController extends Controller
         $itemList = new ItemList();
         $itemList->setItems([$item]);
 
+        $address = new ShippingAddress();
+        $address->setRecipientName('什么名字') //买家名
+                ->setLine1('什么街什么路什么小区')//地址
+                ->setLine2('什么单元什么号')//详情地址
+                ->setCity('城市名')//城市名
+                ->setState('浙江省')//省份
+                ->setPhone('12345678911')//手机号码
+                ->setPostalCode('12345')//邮政编码
+                ->setCountryCode('CN');//国家编号
+         
+         
+        $itemList->setShippingAddress($address);
         $details = new Details();
         $details->setShipping($shipping)
             ->setSubtotal($price);
@@ -77,7 +90,7 @@ class PaypalController extends Controller
         $transaction->setAmount($amount)
             ->setItemList($itemList)
             ->setDescription("支付描述内容")
-            ->setInvoiceNumber(uniqid());
+            ->setInvoiceNumber('商户单号 唯一');
 
         //填写支付成功时的返回跳转url和支付失败时的返回跳转url
         $redirectUrls = new RedirectUrls();
@@ -129,6 +142,8 @@ class PaypalController extends Controller
             $result = $payment->execute($execute, $this->paypal);
             echo 'SUCCESS! Thank You!';
             dd($result);
+            //通过$result->transactions[0]->invoice_number;获取商户单号
+
         }catch(Exception $e){
             dd($e);
         }
